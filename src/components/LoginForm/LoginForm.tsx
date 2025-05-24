@@ -1,4 +1,4 @@
-import React from 'react';
+import { type ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,7 +11,7 @@ const loginSchema = z.object({
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
-const LoginForm: React.FC = () => {
+const LoginForm = (): ReactElement => {
   const {
     register,
     handleSubmit,
@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs): Promise<void> => {
     console.log('Login data:', data);
   };
 

@@ -1,9 +1,10 @@
+import type { ReactElement } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../NavBar/NavBar';
 
 import styles from './Layout.module.scss';
 
-const Layout = () => {
+const Layout = (): ReactElement => {
   return (
     <>
       <Navbar />

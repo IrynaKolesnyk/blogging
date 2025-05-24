@@ -1,22 +1,22 @@
-import { useState } from 'react';
+import { useState, type ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 import styles from './Navbar.module.scss';
 
-const Navbar = () => {
+const Navbar = (): ReactElement => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const isAuthenticated = true;
 
-  const logOut = () => {
+  const logOut = (): void => {
     console.log('logout');
   };
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (): void => {
     setDropdownOpen((prev) => !prev);
   };
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  const navLinkClass = ({ isActive }: { isActive: boolean }): string =>
     isActive ? `${styles.navLink} ${styles.activeNavLink}` : styles.navLink;
 
   return (
