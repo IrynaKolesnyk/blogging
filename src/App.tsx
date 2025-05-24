@@ -1,11 +1,7 @@
+import NavigationRoutes from './routes/NavigationRoutes';
+
 function App() {
-  return (
-    <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+  return <NavigationRoutes />;
 }
 
 export default App;

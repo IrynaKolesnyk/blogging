@@ -1,0 +1,113 @@
+$navbar-bg: #f3f4f6;
+$box-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$link-color: #6c757d;
+$link-hover: #007bff;
+$active-link-color: $link-hover;
+$active-link-weight: 600;
+$border-color: #d1d5db;
+$danger-color: #ef4444;
+$dropdown-bg: #ffffff;
+$avatar-size: 2rem;
+
+.navbar {
+  width: 100%;
+  background-color: $navbar-bg;
+  box-shadow: $box-shadow-sm;
+
+  .navContent {
+    max-width: 75%;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .navLink,
+    .dropdownToggle {
+      color: $link-color;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $link-hover;
+      }
+    }
+
+    .activeNavLink {
+      color: $active-link-color;
+      font-weight: $active-link-weight;
+    }
+
+    .avatarContainer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      img {
+        width: $avatar-size;
+        height: $avatar-size;
+        border-radius: 9999px;
+      }
+
+      .dropdownToggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+        user-select: none;
+        padding: 0;
+        line-height: 1;
+      }
+
+      .rotated {
+        transform: rotate(180deg);
+      }
+
+      .dropdownMenu {
+        position: absolute;
+        top: 110%;
+        right: 0;
+        background-color: $dropdown-bg;
+        border: 1px solid $border-color;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 1rem;
+        z-index: 100;
+        white-space: nowrap;
+      }
+
+      .logoutButton {
+        background: none;
+        border: none;
+        color: $danger-color;
+        cursor: pointer;
+        font-size: 0.875rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .loginLink {
+      color: $link-hover;
+      text-decoration: none;
+      font-weight: 500;
+      transition: text-decoration 0.2s;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
