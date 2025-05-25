@@ -1,15 +1,24 @@
 import { useState, type ReactElement } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import logo from '../../assets/logo.png';
+import type { RootState } from '../../store/store';
+import { logout } from '../../store/authSlice';
 
 import styles from './Navbar.module.scss';
 
 const Navbar = (): ReactElement => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const isAuthenticated = true;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+
+  const isAuthenticated = Boolean(accessToken);
 
   const logOut = (): void => {
-    console.log('logout');
+    dispatch(logout());
+    navigate('/login');
   };
 
   const toggleDropdown = (): void => {

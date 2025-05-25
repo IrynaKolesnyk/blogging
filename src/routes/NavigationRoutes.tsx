@@ -4,6 +4,7 @@ import ArticlesPage from '../pages/ArticlesPage';
 import AuthPage from '../pages/AuthPage';
 import Layout from '../components/Layout/Layout';
 import CreateArticlePage from '../pages/CreateArticlePage';
+import ProtectedRoute from './ProtectedRoute';
 
 const NavigationRoutes = (): ReactElement => {
   return (
@@ -12,7 +13,11 @@ const NavigationRoutes = (): ReactElement => {
         {/* Public */}
         <Route path="/" element={<ArticlesPage />} />
         <Route path="/login" element={<AuthPage />} />
-        <Route path="/create-article" element={<CreateArticlePage />} />
+
+        {/* Protected */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/create-article" element={<CreateArticlePage />} />
+        </Route>
       </Route>
     </Routes>
   );
