@@ -40,3 +40,10 @@ img {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* MDEditor mounts markup outside the scope of local CSS modules */
+.w-md-editor {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}

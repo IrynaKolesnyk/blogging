@@ -1,0 +1,53 @@
+$primary-color: #007bff;
+$primary-color-hover: #0056b3;
+$border-color: #ccc;
+$error-color: red;
+$text-color: white;
+
+.createArticleForm {
+  max-width: 800px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  text-align: left;
+
+  .formHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .publishBtn {
+      background-color: $primary-color;
+      color: $text-color;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $primary-color-hover;
+      }
+    }
+  }
+
+  .input {
+    padding: 0.75rem;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+  }
+
+  .error {
+    color: $error-color;
+    font-size: 0.875rem;
+  }
+}

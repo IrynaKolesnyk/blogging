@@ -40,7 +40,7 @@ const Navbar = (): ReactElement => {
               <NavLink to="/admin" className={navLinkClass}>
                 My Articles
               </NavLink>
-              <NavLink to="/new" className={navLinkClass}>
+              <NavLink to="/create-article" className={navLinkClass}>
                 Create Article
               </NavLink>
               <div className={styles.avatarContainer}>
