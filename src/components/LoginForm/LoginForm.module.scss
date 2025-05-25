@@ -16,6 +16,10 @@ $font-stack: system-ui, sans-serif;
   box-shadow: $box-shadow;
   font-family: $font-stack;
 
+  .serverError {
+    color: $error-color;
+  }
+
   .title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
