@@ -3,9 +3,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import MDEditor from '@uiw/react-md-editor';
-import { createArticle } from '../../store/createArticleSlice';
-import { uploadImages } from '../../store/imageSlice';
+import { uploadImages } from '../../store/slices/imageSlice';
 import { useAppDispatch } from '../../store/storeHooks';
+import { createArticle } from '../../store/slices/articleCreateSlice';
 
 import styles from './CreateArticle.module.scss';
 

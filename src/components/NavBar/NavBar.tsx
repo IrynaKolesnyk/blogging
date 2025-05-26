@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from '../../assets/logo.png';
 import type { RootState } from '../../store/store';
-import { logout } from '../../store/authSlice';
+import { logout } from '../../store/slices/authSlice';
 
 import styles from './Navbar.module.scss';
 
@@ -35,7 +35,7 @@ const Navbar = (): ReactElement => {
           <NavLink to="/">
             <img src={logo} alt="Logo" width="39" height="44" />
           </NavLink>
-          <NavLink to="/articles" className={navLinkClass}>
+          <NavLink to="/" className={navLinkClass}>
             Recent Articles
           </NavLink>
           <NavLink to="/about" className={navLinkClass}>

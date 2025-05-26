@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './authSlice';
-import createArticleReducer from './createArticleSlice';
-import imageReducer from './imageSlice';
+import authReducer from './slices/authSlice';
+import createArticleReducer from './slices/articleCreateSlice';
+import imageReducer from './slices/imageSlice';
+import articlesReducer from './slices/articleListSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    blog: createArticleReducer,
+    articleCreate: createArticleReducer,
     images: imageReducer,
+    articleList: articlesReducer,
   },
 });
 

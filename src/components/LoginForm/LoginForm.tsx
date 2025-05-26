@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.scss';
 import { useAppDispatch, useAppSelector } from '../../store/storeHooks';
-import { login } from '../../store/authSlice';
+import { login } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const loginSchema = z.object({

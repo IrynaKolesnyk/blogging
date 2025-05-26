@@ -1,15 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL as string;
-const API_KEY = import.meta.env.VITE_API_KEY as string;
-
-interface AuthState {
-  accessToken: string | null;
-  username: string | null;
-  isLoading: boolean;
-  error: string | null;
-}
+import { API_KEY, API_URL } from '../../shared/variables';
+import type { AuthState } from '../../shared/types';
 
 const initialState: AuthState = {
   accessToken: localStorage.getItem('accessToken'),

@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-import type { RootState } from './store';
-import type { ImageData } from '../types';
-
-const API_URL = import.meta.env.VITE_API_URL as string;
-const API_KEY = import.meta.env.VITE_API_KEY as string;
+import type { RootState } from '../store';
+import type { ImageData } from '../../shared/types';
+import { API_KEY, API_URL } from '../../shared/variables';
 
 export const uploadImages = createAsyncThunk<
   ImageData[],
@@ -64,8 +62,36 @@ export const fetchImages = createAsyncThunk<
   }
 });
 
+export const fetchImageById = createAsyncThunk<
+  { imageId: string; imageUrl: string },
+  string,
+  { rejectValue: string; state: RootState }
+>('images/fetchById', async (imageId, { rejectWithValue, getState }) => {
+  try {
+    const token = getState().auth.accessToken;
+
+    const response = await axios.get(`${API_URL}/images/${imageId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-API-KEY': API_KEY,
+      },
+      responseType: 'blob',
+    });
+
+    const imageUrl = URL.createObjectURL(response.data);
+    return { imageId, imageUrl };
+  } catch (err) {
+    const error = err as AxiosError;
+    if (error.response?.status === 401) {
+      return rejectWithValue('Unauthorized or invalid API key');
+    }
+    return rejectWithValue('Failed to fetch image');
+  }
+});
+
 const initialState = {
   images: [] as ImageData[],
+  imageMap: {} as Record<string, string>,
   loading: false,
   error: null as string | null,
 };
@@ -100,6 +126,10 @@ const imageSlice = createSlice({
       .addCase(fetchImages.rejected, (state, action) => {
         state.loading = false;
         state.error = (action.payload as string) ?? 'Fetch failed';
+      })
+
+      .addCase(fetchImageById.fulfilled, (state, action) => {
+        state.imageMap[action.payload.imageId] = action.payload.imageUrl;
       });
   },
 });

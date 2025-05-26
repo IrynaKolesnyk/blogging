@@ -4,43 +4,46 @@ import {
   type PayloadAction,
 } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-import type { ArticleData, ArticleResponse, ArticleState } from '../types';
-import type { RootState } from './store';
-
-const API_URL = import.meta.env.VITE_API_URL as string;
-const API_KEY = import.meta.env.VITE_API_KEY as string;
+import type {
+  ArticleData,
+  ArticleResponse,
+  ArticleState,
+} from '../../shared/types';
+import type { RootState } from '../store';
+import { API_KEY, API_URL } from '../../shared/variables';
 
 export const createArticle = createAsyncThunk<
   ArticleResponse,
   ArticleData,
   { rejectValue: string; state: RootState }
->('blog/createArticle', async (articleData, { rejectWithValue, getState }) => {
-  try {
-    const state = getState();
-    const token = state.auth.accessToken;
+>(
+  'articleCreate/create',
+  async (articleData, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = state.auth.accessToken;
 
-    console.log('articleData', articleData);
-
-    const response = await axios.post<ArticleResponse>(
-      `${API_URL}/articles`,
-      articleData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-API-KEY': API_KEY,
+      const response = await axios.post<ArticleResponse>(
+        `${API_URL}/articles`,
+        articleData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-API-KEY': API_KEY,
+          },
         },
-      },
-    );
+      );
 
-    return response.data;
-  } catch (err: unknown) {
-    const error = err as AxiosError<{ code?: string; message?: string }>;
-    if (error.response?.status === 401) {
-      return rejectWithValue('Unauthorized or invalid API key');
+      return response.data;
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ code?: string; message?: string }>;
+      if (error.response?.status === 401) {
+        return rejectWithValue('Unauthorized or invalid API key');
+      }
+      return rejectWithValue('Failed to create article');
     }
-    return rejectWithValue('Failed to create article');
-  }
-});
+  },
+);
 
 const initialState: ArticleState = {
   article: null,
@@ -49,7 +52,7 @@ const initialState: ArticleState = {
 };
 
 const createArticleSlice = createSlice({
-  name: 'blog',
+  name: 'articleCreate',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
