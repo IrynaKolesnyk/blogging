@@ -2,8 +2,6 @@
   display: flex;
   justify-content: center;
 
-  margin-bottom: 32px;
-
   max-width: 860px;
   color: #212529;
 
@@ -71,4 +69,8 @@
       margin: 0;
     }
   }
+}
+
+.article:not(:last-child) {
+  margin-bottom: 32px;
 }

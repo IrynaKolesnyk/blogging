@@ -1,13 +1,4 @@
-$navbar-bg: #f3f4f6;
-$box-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-$link-color: #6c757d;
-$link-hover: #007bff;
-$active-link-color: $link-hover;
-$active-link-weight: 600;
-$border-color: #d1d5db;
-$danger-color: #ef4444;
-$dropdown-bg: #ffffff;
-$avatar-size: 2rem;
+@use '../../shared/styles/variables' as *;
 
 .navbar {
   width: 100%;
@@ -31,7 +22,7 @@ $avatar-size: 2rem;
 
     .navLink,
     .dropdownToggle {
-      color: $link-color;
+      color: $secondary-text-color;
       text-decoration: none;
       font-weight: 400;
       transition: color 0.2s;
