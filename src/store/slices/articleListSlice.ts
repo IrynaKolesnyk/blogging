@@ -77,9 +77,6 @@ export const fetchEnrichedArticles = createAsyncThunk<
           );
           imageUrl = URL.createObjectURL(imageRes.data);
         }
-
-        console.log('detailRes.data, imageUrl', detailRes.data, imageUrl);
-
         return {
           ...detailRes.data,
           imageUrl,
@@ -90,6 +87,29 @@ export const fetchEnrichedArticles = createAsyncThunk<
     return enriched;
   } catch {
     return rejectWithValue('Failed to fetch enriched articles');
+  }
+});
+
+export const deleteArticle = createAsyncThunk<
+  string,
+  string,
+  { rejectValue: string; state: RootState }
+>('articles/delete', async (articleId, { getState, rejectWithValue }) => {
+  try {
+    const token = getState().auth.accessToken;
+    await axios.delete(`${API_URL}/articles/${articleId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-API-KEY': API_KEY,
+      },
+    });
+    return articleId;
+  } catch (err) {
+    const error = err as AxiosError;
+    if (error.response?.status === 401) {
+      return rejectWithValue('Unauthorized or invalid API key');
+    }
+    return rejectWithValue('Failed to delete article');
   }
 });
 
@@ -132,7 +152,15 @@ const articlesSlice = createSlice({
       .addCase(fetchEnrichedArticles.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? 'Enriched fetch failed';
-      });
+      })
+      .addCase(
+        deleteArticle.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.enrichedArticles = state.enrichedArticles.filter(
+            (a) => a.articleId !== action.payload,
+          );
+        },
+      );
   },
 });
 

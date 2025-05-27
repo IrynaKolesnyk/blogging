@@ -2,7 +2,10 @@ import { useEffect, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../components/Admin/AdminTable.module.scss';
 import { useAppDispatch, useAppSelector } from '../store/storeHooks';
-import { fetchEnrichedArticles } from '../store/slices/articleListSlice';
+import {
+  deleteArticle,
+  fetchEnrichedArticles,
+} from '../store/slices/articleListSlice';
 import AdminTable from '../components/Admin/AdminTable';
 
 const AdminArticlePage = (): ReactElement => {
@@ -20,8 +23,14 @@ const AdminArticlePage = (): ReactElement => {
     console.log('onEdit', id);
   };
 
-  const onDelete = (id: string): void => {
-    console.log('onDelete', id);
+  const onDelete = async (id: string): Promise<void> => {
+    try {
+      await dispatch(deleteArticle(id)).unwrap();
+
+      alert('Article successfully removed!');
+    } catch (err) {
+      console.error('Failed to remove article:', err);
+    }
   };
 
   return (
