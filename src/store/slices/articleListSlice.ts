@@ -8,6 +8,8 @@ import type {
   ArticleProps,
   ArticleListResponse,
   ArticlesState,
+  EnrichedArticle,
+  ArticleDetail,
 } from '../../shared/types';
 import type { RootState } from '../store';
 import { API_KEY, API_URL } from '../../shared/variables';
@@ -40,10 +42,62 @@ export const fetchArticles = createAsyncThunk<
   }
 });
 
+export const fetchEnrichedArticles = createAsyncThunk<
+  EnrichedArticle[],
+  void,
+  { state: RootState; rejectValue: string }
+>('articles/fetchEnriched', async (_, { getState, rejectWithValue }) => {
+  try {
+    const { accessToken } = getState().auth;
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      'X-API-KEY': API_KEY,
+    };
+
+    const res = await axios.get<ArticleListResponse>(`${API_URL}/articles`, {
+      headers,
+    });
+    const basicArticles = res.data.items;
+
+    const enriched = await Promise.all(
+      basicArticles.map(async (article) => {
+        const detailRes = await axios.get<ArticleDetail>(
+          `${API_URL}/articles/${article.articleId}`,
+          { headers },
+        );
+
+        let imageUrl: string | null = null;
+        if (article.imageId) {
+          const imageRes = await axios.get(
+            `${API_URL}/images/${article.imageId}`,
+            {
+              headers,
+              responseType: 'blob',
+            },
+          );
+          imageUrl = URL.createObjectURL(imageRes.data);
+        }
+
+        console.log('detailRes.data, imageUrl', detailRes.data, imageUrl);
+
+        return {
+          ...detailRes.data,
+          imageUrl,
+        };
+      }),
+    );
+
+    return enriched;
+  } catch {
+    return rejectWithValue('Failed to fetch enriched articles');
+  }
+});
+
 const initialState: ArticlesState = {
   articles: [],
   loading: false,
   error: null,
+  enrichedArticles: [] as EnrichedArticle[],
 };
 
 const articlesSlice = createSlice({
@@ -66,6 +120,18 @@ const articlesSlice = createSlice({
       .addCase(fetchArticles.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? 'Something went wrong';
+      })
+      .addCase(fetchEnrichedArticles.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchEnrichedArticles.fulfilled, (state, action) => {
+        state.loading = false;
+        state.enrichedArticles = action.payload;
+      })
+      .addCase(fetchEnrichedArticles.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? 'Enriched fetch failed';
       });
   },
 });

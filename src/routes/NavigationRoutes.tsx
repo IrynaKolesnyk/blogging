@@ -6,6 +6,7 @@ import Layout from '../components/Layout/Layout';
 import CreateArticlePage from '../pages/CreateArticlePage';
 import ProtectedRoute from './ProtectedRoute';
 import NotFoundPage from '../pages/NotFoundPage';
+import AdminArticlePage from '../pages/AdminArticlePage';
 
 const NavigationRoutes = (): ReactElement => {
   return (
@@ -18,6 +19,7 @@ const NavigationRoutes = (): ReactElement => {
         {/* Protected */}
         <Route element={<ProtectedRoute />}>
           <Route path="/create-article" element={<CreateArticlePage />} />
+          <Route path="/admin" element={<AdminArticlePage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

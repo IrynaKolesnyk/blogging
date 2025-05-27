@@ -70,7 +70,7 @@ const CreateArticle = (): ReactElement => {
       data-color-mode="light"
     >
       <div className={styles.formHeader}>
-        <h1>Create new article</h1>
+        <h1 className={styles.title}>Create new article</h1>
         <button type="submit" className={styles.publishBtn}>
           Publish Article
         </button>

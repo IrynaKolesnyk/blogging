@@ -16,8 +16,8 @@ export interface ArticleData {
 export interface ArticleProps {
   articleId: string;
   title: string;
-  perex: string;
-  imageId: string;
+  perex?: string | null;
+  imageId?: string | null;
   createdAt: string;
   lastUpdatedAt: string;
 }
@@ -25,9 +25,9 @@ export interface ArticleProps {
 export interface ArticleResponse {
   articleId: string;
   title: string;
-  perex: string | null;
+  perex?: string | null;
   content: string;
-  imageId: string | null;
+  imageId?: string | null;
   createdAt: string;
   lastUpdatedAt: string;
   comments: Comment[];
@@ -38,15 +38,13 @@ export interface ArticleListResponse {
   items: ArticleProps[];
 }
 
-export interface ArticleDetail {
-  articleId: string;
-  title: string;
-  perex: string | null;
-  imageId: string;
-  createdAt: string;
-  lastUpdatedAt: string;
+export interface ArticleDetail extends ArticleProps {
   content: string;
   comments: Comment[];
+}
+
+export interface EnrichedArticle extends ArticleDetail {
+  imageUrl: string | null;
 }
 
 export interface ArticleState {
@@ -59,6 +57,7 @@ export interface ArticlesState {
   articles: ArticleProps[];
   loading: boolean;
   error: string | null;
+  enrichedArticles: EnrichedArticle[];
 }
 
 export interface ImageData {

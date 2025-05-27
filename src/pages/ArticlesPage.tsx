@@ -1,17 +1,17 @@
 import { useEffect, type ReactElement } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/storeHooks';
-import { fetchArticles } from '../store/slices/articleListSlice';
 import Article from '../components/Article/Article';
+import { fetchEnrichedArticles } from '../store/slices/articleListSlice';
 
 const ArticlesPage = (): ReactElement => {
   const dispatch = useAppDispatch();
-  const { articles, loading, error } = useAppSelector(
+  const { enrichedArticles, loading, error } = useAppSelector(
     (state) => state.articleList,
   );
-  const imageMap = useAppSelector((state) => state.images.imageMap);
+  const username = useAppSelector((state) => state.auth.username);
 
   useEffect(() => {
-    dispatch(fetchArticles());
+    dispatch(fetchEnrichedArticles());
   }, [dispatch]);
 
   return (
@@ -19,12 +19,14 @@ const ArticlesPage = (): ReactElement => {
       <h1>Articles Page</h1>
       {loading && <p>Loading articles...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {articles.map((article) => {
-        const imageUrl = imageMap[article.imageId];
-        return (
-          <Article key={article.articleId} {...article} imageUrl={imageUrl} />
-        );
-      })}
+      {enrichedArticles.map((article) => (
+        <Article
+          key={article.articleId}
+          {...article}
+          imageUrl={article.imageUrl ?? ''}
+          name={username || 'unknown author'}
+        />
+      ))}
     </div>
   );
 };
