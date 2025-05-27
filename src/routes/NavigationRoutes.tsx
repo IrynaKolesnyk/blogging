@@ -7,6 +7,7 @@ import CreateArticlePage from '../pages/CreateArticlePage';
 import ProtectedRoute from './ProtectedRoute';
 import NotFoundPage from '../pages/NotFoundPage';
 import AdminArticlePage from '../pages/AdminArticlePage';
+import ArticleDetailPage from '../pages/ArticleDetailPage';
 
 const NavigationRoutes = (): ReactElement => {
   return (
@@ -15,6 +16,7 @@ const NavigationRoutes = (): ReactElement => {
         {/* Public */}
         <Route path="/" element={<ArticlesPage />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="/articles/:articleId" element={<ArticleDetailPage />} />
 
         {/* Protected */}
         <Route element={<ProtectedRoute />}>

@@ -1,0 +1,30 @@
+@use '../../shared/styles/variables' as *;
+
+.sidebar {
+  .relatedTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: $text-color;
+  }
+
+  .relatedList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 8px;
+
+      a {
+        color: $primary-color;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+          color: $primary-color-hover;
+        }
+      }
+    }
+  }
+}

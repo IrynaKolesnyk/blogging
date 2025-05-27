@@ -38,12 +38,12 @@ export interface ArticleListResponse {
   items: ArticleProps[];
 }
 
-export interface ArticleDetail extends ArticleProps {
+export interface ArticleDetailProps extends ArticleProps {
   content: string;
   comments: Comment[];
 }
 
-export interface EnrichedArticle extends ArticleDetail {
+export interface EnrichedArticle extends ArticleDetailProps {
   imageUrl: string | null;
 }
 

@@ -9,7 +9,7 @@ import type {
   ArticleListResponse,
   ArticlesState,
   EnrichedArticle,
-  ArticleDetail,
+  ArticleDetailProps,
 } from '../../shared/types';
 import type { RootState } from '../store';
 import { API_KEY, API_URL } from '../../shared/variables';
@@ -61,7 +61,7 @@ export const fetchEnrichedArticles = createAsyncThunk<
 
     const enriched = await Promise.all(
       basicArticles.map(async (article) => {
-        const detailRes = await axios.get<ArticleDetail>(
+        const detailRes = await axios.get<ArticleDetailProps>(
           `${API_URL}/articles/${article.articleId}`,
           { headers },
         );
@@ -84,7 +84,11 @@ export const fetchEnrichedArticles = createAsyncThunk<
       }),
     );
 
-    return enriched;
+    const sortedArticles = [...enriched].sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+
+    return sortedArticles;
   } catch {
     return rejectWithValue('Failed to fetch enriched articles');
   }

@@ -21,9 +21,15 @@ type Props = ArticleResponse & {
 //     }),
 //   }}
 
-const Article: FC<Props> = (props) => {
-  console.log('PROPS', props);
-  const { title, createdAt, imageUrl, content, name, comments } = props;
+const Article: FC<Props> = ({
+  title,
+  createdAt,
+  imageUrl,
+  content,
+  name,
+  comments,
+  articleId,
+}) => {
   const formattedDate = new Date(createdAt).toLocaleDateString();
 
   return (
@@ -50,7 +56,7 @@ const Article: FC<Props> = (props) => {
           }}
         />
         <div className={styles.actions}>
-          <Link to="/" className={styles.readMore}>
+          <Link to={`/articles/${articleId}`} className={styles.readMore}>
             Read whole article
           </Link>
           <p className={styles.commentCount}>{comments.length} comments</p>
