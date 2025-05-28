@@ -1,25 +1,14 @@
+// Article.tsx
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import type { ArticleResponse } from '../../shared/types';
 import logo from '../../assets/logo.png';
-
 import styles from './Article.module.scss';
 
 type Props = ArticleResponse & {
   imageUrl?: string;
   name: string;
 };
-
-// improvement add sanitize-html to avoid XSS(<script>alert("hacked")</script>)
-// dangerouslySetInnerHTML={{
-//     __html: sanitizeHtml(content || '<p>No description available.</p>', {
-//       allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'ul', 'ol', 'li', 'blockquote', 'code', 'pre', 'h1', 'h2', 'h3', 'br'],
-//       allowedAttributes: {
-//         a: ['href', 'target', 'rel'],
-//       },
-//       allowedSchemes: ['http', 'https', 'mailto'],
-//     }),
-//   }}
 
 const Article: FC<Props> = ({
   title,
@@ -33,33 +22,47 @@ const Article: FC<Props> = ({
   const formattedDate = new Date(createdAt).toLocaleDateString();
 
   return (
-    <div className={styles.article}>
+    <div className={styles.article} data-testid="article">
       <div className={styles.imageWrapper}>
         <img
+          data-testid="article-image"
           src={imageUrl || logo}
           alt="Article image"
           onError={(e) => (e.currentTarget.src = logo)}
         />
       </div>
       <div className={styles.contentWrapper}>
-        <h2 className={styles.title}>{title || 'Untitled article'}</h2>
+        <h2 className={styles.title} data-testid="article-title">
+          {title || 'Untitled article'}
+        </h2>
         <div className={styles.meta}>
-          <p className={styles.author}>{name}</p>
+          <p className={styles.author} data-testid="article-author">
+            {name}
+          </p>
           <span className={styles.separator}>•</span>
-          <p className={styles.date}>{formattedDate}</p>
+          <p className={styles.date} data-testid="article-date">
+            {formattedDate}
+          </p>
         </div>
         <div
           className={styles.description}
+          data-testid="article-description"
           dangerouslySetInnerHTML={{
             __html:
               content.slice(0, 300) + '…' || '<p>No description available.</p>',
           }}
         />
         <div className={styles.actions}>
-          <Link to={`/articles/${articleId}`} className={styles.readMore}>
+          <Link
+            to={`/articles/${articleId}`}
+            className={styles.readMore}
+            data-testid="article-link"
+          >
             Read whole article
           </Link>
-          <p className={styles.commentCount}>{comments.length} comments</p>
+          <p className={styles.commentCount} data-testid="article-comments">
+            {comments.length} comments
+          </p>
         </div>
       </div>
     </div>
